@@ -2,8 +2,6 @@ import Task from "../Task/Task";
 import classes from "./TaskList.module.css";
 
 export default function TaskList({ title, tasks }) {
-  console.log("Tasks: ", tasks);
-
   return (
     <div className={classes.wrapper}>
       <div className={classes["list-title"]}>{title}</div>

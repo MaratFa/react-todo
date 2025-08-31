@@ -11,12 +11,19 @@ function App() {
     { id: 4, title: "Task 4", description: "Task 4 description", done: false },
   ]);
 
+  const onAddTask = (data) => {
+    setTask([...tasks, {
+      id: (tasks.at(-1)?.id + 1) || 1,
+      ...data
+    }])
+  }
+
   return (
     <>
       <div className="main-wrapper">
         <TaskList title="Active" tasks={tasks} />
         <TaskList title="Completed" tasks={tasks} />
-        <AddBtn />
+        <AddBtn addTask={onAddTask}/>
       </div>
     </>
   );

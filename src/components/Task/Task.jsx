@@ -41,7 +41,9 @@ export default function Task({ task, chahgeTask }) {
             ? <>
                 <div className={classes['task-info__title-input']}>
                   <TextField
-                    label={"Name"}
+                    label="Name"
+                    defaultValue={taskTitle}
+                    
                   />
                 </div>
                 <div className={classes['task-info__description-input']}>

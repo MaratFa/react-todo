@@ -3,7 +3,7 @@ import Button from "@mui/material/Button";
 import { useState, useEffect } from "react";
 import classes from "./AddForm.module.css";
 
-export default function AddForm({ addTask }) {
+export default function AddForm({closeModal, addTask }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [isTitleValid, setIsTitleValid] = useState(title && title.trim());
@@ -21,7 +21,12 @@ export default function AddForm({ addTask }) {
 
     if (!isTitleValid || !isDescriptionValid) return;
 
-    addTask();
+    addTask({
+      title,
+      description,
+    });
+
+    closeModal();
 
     console.log("New task was added");
   };

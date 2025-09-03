@@ -12,6 +12,8 @@ function App() {
     { id: 4, title: "Task 4", description: "Task 4 description", done: false },
   ]);
 
+  const [searchGlobal, setSearchGlobal] = useState('');
+
   const onAddTask = (data) => {
     setTasks([
       ...tasks,
@@ -28,11 +30,26 @@ function App() {
     );
   };
 
+  const onDeleteTask = (id) => {
+    setTasks([...tasks].filter((task) => task.id !== id));
+  };
+
   return (
     <>
       <div className="main-wrapper">
-        <TaskList title="Active" tasks={tasks} changeTask={onUpdateTask} />
-        <TaskList title="Completed" tasks={tasks} changeTask={onUpdateTask} />
+        <TaskList
+          title="Active"
+          tasks={tasks}
+          changeTask={onUpdateTask}
+          deleteTask={onDeleteTask}
+        />
+        <TaskList
+          title="Completed"
+          tasks={tasks}
+          sortBy="done"
+          changeTask={onUpdateTask}
+          deleteTask={onDeleteTask}
+        />
       </div>
       <AddBtn>
         {(closeModal) => {

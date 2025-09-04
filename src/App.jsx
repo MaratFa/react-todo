@@ -1,6 +1,7 @@
 import TaskList from "./components/TaskList/TaskList";
 import AddBtn from "./components/AddBtn/AddBtn";
 import AddForm from "./components/AddForm/AddForm";
+import Search from "./components/Search/Search";
 import { useState } from "react";
 import "./App.css";
 
@@ -36,6 +37,8 @@ function App() {
 
   return (
     <>
+      { searchGlobal }
+      <Search setSearchGlobal={setSearchGlobal}/>
       <div className="main-wrapper">
         <TaskList
           title="Active"

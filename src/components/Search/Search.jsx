@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 
-export default function Search({setSearchGlobal}) {  
+export default function Search({ setSearchGlobal }) {
   const [searchText, setSearchText] = useState("");
   const [isClear, setIsClear] = useState(false);
 
@@ -13,13 +13,15 @@ export default function Search({setSearchGlobal}) {
       setSearchGlobal(searchText);
       setIsClear(true);
       return;
+
     }
 
     setIsClear(false);
+    setSearchGlobal('')
   }, [searchText]);
 
   const onClearClick = () => {
-    searchText("");
+    setSearchGlobal("");
     setIsClear(false);
     setSearchText("");
   };

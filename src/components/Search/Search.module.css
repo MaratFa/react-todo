@@ -5,7 +5,7 @@
 }
 
 .clear {
-  position: absolute;
+  position: absolute !important;
   top: 8px;
   right: 5px;
 }

@@ -2,7 +2,9 @@ import TaskList from "./components/TaskList/TaskList";
 import AddBtn from "./components/AddBtn/AddBtn";
 import AddForm from "./components/AddForm/AddForm";
 import Search from "./components/Search/Search";
-import { useState, useMemo } from "react";
+import { useState } from "react";
+import useSearchTasks from "./hooks/useSearchTasks";
+import { addTask, updateTask, deleteTask } from "./helpers/index";
 import "./App.css";
 
 function App() {
@@ -14,57 +16,14 @@ function App() {
   ]);
 
   const [searchGlobal, setSearchGlobal] = useState("");
-  
-  const searchTasks = useMemo(() => {
-    console.log("USE MEMO");
 
+  const searchTasks = useSearchTasks(tasks, searchGlobal);
 
+  const onAddTask = addTask(tasks, setTasks);
 
+  const onUpdateTask = updateTask(tasks, setTasks);
 
-
-
-
-
-
-
-
-
-
-    
-
-    if (searchGlobal) {
-      const lowerSearch = searchGlobal.toLowerCase();
-
-      return [...tasks].filter((task) => {
-        return (
-          task.title.toLowerCase().includes(lowerSearch) ||
-          task.description.toLowerCase().includes(lowerSearch)
-        );
-      });
-    }
-
-    return tasks;
-  }, [tasks, searchGlobal]);
-
-  const onAddTask = (data) => {
-    setTasks([
-      ...tasks,
-      {
-        id: tasks.at(-1)?.id + 1 || 1,
-        ...data,
-      },
-    ]);
-  };
-
-  const onUpdateTask = (id, data) => {
-    setTasks(
-      [...tasks].map((task) => (task.id === id ? { ...task, ...data } : task))
-    );
-  };
-
-  const onDeleteTask = (id) => {
-    setTasks([...tasks].filter((task) => task.id !== id));
-  };
+  const onDeleteTask = deleteTask (tasks, setTasks); 
 
   return (
     <>

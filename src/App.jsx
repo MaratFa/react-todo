@@ -5,6 +5,7 @@ import Search from "./components/Search/Search";
 import { useState } from "react";
 import useSearchTasks from "./hooks/useSearchTasks";
 import { addTask, updateTask, deleteTask } from "./helpers/index";
+import Notifications from "./components/Notifications/Notifications";
 import "./App.css";
 
 function App() {
@@ -23,11 +24,11 @@ function App() {
 
   const onUpdateTask = updateTask(tasks, setTasks);
 
-  const onDeleteTask = deleteTask (tasks, setTasks); 
+  const onDeleteTask = deleteTask(tasks, setTasks);
 
   return (
     <>
-      {searchGlobal}
+      <Notifications notifications={[{ id: 1, text: "Noti1"}, { id: 2, text: "Noti2"}]} />
       <Search setSearchGlobal={setSearchGlobal} />
       <div className="main-wrapper">
         <TaskList

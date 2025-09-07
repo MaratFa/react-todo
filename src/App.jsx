@@ -28,7 +28,7 @@ function App() {
 
   return (
     <>
-      <Notifications notifications={[{ id: 1, text: "Noti1"}, { id: 2, text: "Noti2"}]} />
+      <Notifications notifications={[{ id: 1, text: "Noti1", type: 'success'}, { id: 2, text: "Noti2", type: 'success'}]} />
       <Search setSearchGlobal={setSearchGlobal} />
       <div className="main-wrapper">
         <TaskList

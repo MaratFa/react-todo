@@ -2,11 +2,14 @@ import TaskList from "./components/TaskList/TaskList";
 import AddBtn from "./components/AddBtn/AddBtn";
 import AddForm from "./components/AddForm/AddForm";
 import Search from "./components/Search/Search";
-import { useState } from "react";
+import { useState, createContext } from "react";
 import useSearchTasks from "./hooks/useSearchTasks";
 import { addTask, updateTask, deleteTask } from "./helpers/index";
 import Notifications from "./components/Notifications/Notifications";
 import "./App.css";
+import useNotification from "./hooks/useNotification";
+
+export const NotifyContext = createContext(null);
 
 function App() {
   const [tasks, setTasks] = useState([
@@ -20,6 +23,9 @@ function App() {
 
   const searchTasks = useSearchTasks(tasks, searchGlobal);
 
+  const { notifications, showNotification, removeNotificationById } =
+    useNotification();
+
   const onAddTask = addTask(tasks, setTasks);
 
   const onUpdateTask = updateTask(tasks, setTasks);
@@ -27,8 +33,10 @@ function App() {
   const onDeleteTask = deleteTask(tasks, setTasks);
 
   return (
-    <>
-      <Notifications notifications={[{ id: 1, text: "Noti1", type: 'success'}, { id: 2, text: "Noti2", type: 'success'}]} />
+    <NotifyContext.Provider
+      value={{ notifications, showNotification, removeNotificationById }}
+    >
+      <Notifications notifications={notifications} />
       <Search setSearchGlobal={setSearchGlobal} />
       <div className="main-wrapper">
         <TaskList
@@ -50,7 +58,7 @@ function App() {
           return <AddForm closeModal={closeModal} addTask={onAddTask} />;
         }}
       </AddBtn>
-    </>
+    </NotifyContext.Provider>
   );
 }
 

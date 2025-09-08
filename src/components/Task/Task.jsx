@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
 import classes from "./Task.module.css";
 import { Checkbox } from "@mui/material";
 import TextField from "@mui/material/TextField";
@@ -12,6 +12,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogTitle from "@mui/material/DialogTitle";
 import Button from "@mui/material/Button";
 import Fade from "@mui/material/Fade";
+import { NotifyContext } from "../../App";
 
 export default function Task({ task, changeTask, deleteTask }) {
   const [isEdit, setIsEdit] = useState(false);
@@ -23,6 +24,8 @@ export default function Task({ task, changeTask, deleteTask }) {
   const [isShowDialog, setIsShowDialog] = useState(false);
 
   const inputTitleRef = useRef(null);
+
+  const notifyContext = useContext(NotifyContext);
 
   useEffect(() => {
     if (isEdit) inputTitleRef?.current?.focus();
@@ -36,6 +39,11 @@ export default function Task({ task, changeTask, deleteTask }) {
         done: !isDone,
       });
     }, 50);
+    notifyContext.showNotification({
+      text: !isDone ? `${task.title} completed!` : `${task.title} is active!`,
+      time: 1500,
+      type: "info",
+    });
   };
 
   const acceptChanges = () => {
@@ -43,6 +51,11 @@ export default function Task({ task, changeTask, deleteTask }) {
       changeTask(task.id, {
         title: taskTitle,
         description: taskDescription,
+      });
+      notifyContext.showNotification({
+        text: `${task.title} updated!`,
+        time: 3000,
+        type: "success",
       });
     }
     setIsEdit(false);
@@ -52,6 +65,20 @@ export default function Task({ task, changeTask, deleteTask }) {
     setTaskTitle(task.title);
     setTaskDescription(task.description);
     setIsEdit(false);
+  };
+
+  const modalAccept = () => {
+    deleteTask(task.id);
+    notifyContext.showNotification({
+      text: `${task.title} deleted!`,
+      time: 1500,
+      type: "success",
+    });
+    setIsShowDialog(false);
+  };
+
+  const onModalDecline = () => {
+    setIsShowDialog(false);
   };
 
   return (
@@ -134,8 +161,8 @@ export default function Task({ task, changeTask, deleteTask }) {
           >
             <DialogTitle>{"Delete task"}</DialogTitle>
             <DialogActions>
-              <Button onClick={() => deleteTask(task.id)}>Delete</Button>
-              <Button onClick={() => setIsShowDialog(false)}>Cancel</Button>
+              <Button onClick={() => modalAccept()}>Delete</Button>
+              <Button onClick={() => onModalDecline()}>Cancel</Button>
             </DialogActions>
           </Dialog>
         </div>
